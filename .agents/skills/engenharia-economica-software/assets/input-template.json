@@ -1,0 +1,368 @@
+{
+  "projeto": {
+    "nome": "SwarmBurst",
+    "descricao": "O SwarmBurst é o nosso TCC: um agente autônomo de cloud bursting para Docker Swarm. Ele monitora CPU, memória e requisições do cluster, provisiona nós em nuvem pública (AWS EC2) quando a carga passa do threshold, faz o ingresso no Swarm via Ansible e SDKs oficiais de nuvem e desprovisiona quando a demanda normaliza. O núcleo é Java 21 + Micronaut, com coletores gRPC, dashboard React com estimativa de custos e controles de segurança (2FA, JWT, RBAC). A pergunta econômica que respondemos aqui é se vale a pena transformar o TCC em produto comercial.",
+    "equipe": [
+      "Augusto de Morais",
+      "Marcos Antônio",
+      "Kaique Bahmad"
+    ],
+    "data_base": "24/11/2026",
+    "horizonte_anos": 5
+  },
+  "macro": {
+    "selic": 0.1375,
+    "premio_risco": 0.06,
+    "cambio_usd_brl": 5.85,
+    "fontes": {
+      "selic": "Copom, 282ª reunião (04/11/2026): Selic mantida em 13,75% a.a.",
+      "cambio": "Dólar comercial fechou a R$ 5,87 em 18/11/2026; usamos R$ 5,85"
+    }
+  },
+  "alternativas_decisao": [
+    {
+      "nome": "A. Não investir",
+      "descricao": "Aplicar o capital à TMA. É a alternativa nula: qualquer projeto precisa ter VPL maior que zero para superá-la."
+    },
+    {
+      "nome": "B. Produto com licença por cluster (escolhida)",
+      "descricao": "Desenvolver e comercializar o SwarmBurst em modelo open-core, com receita recorrente anual por cluster."
+    },
+    {
+      "nome": "C. Projeto sob encomenda",
+      "descricao": "Vender o desenvolvimento uma única vez pelo preço de markup (seção 3.2). Receita única, sem recorrência e sem escala."
+    }
+  ],
+  "custos_desenvolvimento": {
+    "diretos": [
+      {
+        "item": "2 devs back-end Java/Micronaut (R$ 8.000 x 2 x 6 meses)",
+        "valor": 96000
+      },
+      {
+        "item": "1 dev front-end React (R$ 6.500 x 6 meses)",
+        "valor": 39000
+      },
+      {
+        "item": "1 eng. DevOps, Ansible e SDKs de nuvem (R$ 5.000 x 6 meses)",
+        "valor": 30000
+      },
+      {
+        "item": "Designer UI/UX (R$ 4.500 x 2 meses)",
+        "valor": 9000
+      },
+      {
+        "item": "Nuvem para testes de estresse k6 (R$ 1.200 x 6 meses)",
+        "valor": 7200
+      },
+      {
+        "item": "Licenças e ferramentas IDE e CI/CD (R$ 600 x 6 meses)",
+        "valor": 3600
+      }
+    ],
+    "indiretos": [
+      {
+        "item": "Coworking / espaço físico",
+        "valor": 12000
+      },
+      {
+        "item": "Administração e contabilidade",
+        "valor": 9000
+      },
+      {
+        "item": "Marketing institucional",
+        "valor": 7200
+      },
+      {
+        "item": "Reserva de suporte e pós-venda",
+        "valor": 6000
+      },
+      {
+        "item": "Energia elétrica",
+        "valor": 2700
+      },
+      {
+        "item": "Internet corporativa",
+        "valor": 2100
+      }
+    ]
+  },
+  "capex_hardware": {
+    "descricao": "Cluster local de testes (3 nós de 4 vCPU e 8 GB)",
+    "valor": 15000,
+    "vida_util": 5
+  },
+  "vida_util_software": 5,
+  "precificacao": {
+    "margem": 0.2,
+    "aliquota_preco": 0.0865,
+    "licenca_anual_cluster": 12000,
+    "reajuste_anual": 0.04,
+    "licenca_markup": 7350,
+    "licencas_meta_markup": 40
+  },
+  "mercado": {
+    "novos_clusters": [
+      10,
+      20,
+      28,
+      34,
+      38
+    ],
+    "churn_anual": 0.12,
+    "cac": 4500
+  },
+  "opex": {
+    "equipe_fixa": [
+      120000,
+      150000,
+      190000,
+      230000,
+      260000
+    ],
+    "infra_saas_anual": 9600,
+    "custo_variavel_cluster": 420
+  },
+  "tributacao": {
+    "regime": "presumido"
+  },
+  "valor_cliente": {
+    "perfil_lab": {
+      "descricao": "Laboratório do TCC: 2 x t3.medium, pico 40 h/mês",
+      "nos": 2,
+      "preco_hora_usd": 0.0416,
+      "horas_mes_estatico": 720,
+      "horas_mes_burst": 40
+    },
+    "perfil_referencia": {
+      "descricao": "Cliente de referência: 8 x t3.xlarge, pico 60 h/mês",
+      "nos": 8,
+      "preco_hora_usd": 0.1664,
+      "horas_mes_estatico": 720,
+      "horas_mes_burst": 60
+    }
+  },
+  "alternativas_cliente": {
+    "meses": 36,
+    "opcoes": [
+      {
+        "nome": "Nuvem estática: 8 x t3.xlarge 24/7",
+        "mensal_usd": 958.46
+      },
+      {
+        "nome": "On-premises: comprar 8 servidores para o pico",
+        "inicial_brl": 96000,
+        "mensal_brl": 1440
+      },
+      {
+        "nome": "Migrar para Kubernetes (EKS + Cluster Autoscaler)",
+        "inicial_brl": 60000,
+        "mensal_usd": 152.87,
+        "mensal_brl": 3750
+      },
+      {
+        "nome": "SwarmBurst Pro: burst 60 h/mês + licença",
+        "mensal_usd": 79.87,
+        "mensal_brl": 1000.0
+      }
+    ]
+  },
+  "evm": {
+    "bac": 184800,
+    "data_status": "fim da Sprint 4 (novembro/2026)",
+    "sprints": [
+      {
+        "nome": "Sprint 1 (ago)",
+        "pv_pct": 0.12,
+        "ev_pct": 0.05,
+        "ac": 30000
+      },
+      {
+        "nome": "Sprint 2 (set)",
+        "pv_pct": 0.16,
+        "ev_pct": 0.15,
+        "ac": 31000
+      },
+      {
+        "nome": "Sprint 3 (out)",
+        "pv_pct": 0.18,
+        "ev_pct": 0.2,
+        "ac": 31500
+      },
+      {
+        "nome": "Sprint 4 (nov)",
+        "pv_pct": 0.18,
+        "ev_pct": 0.19,
+        "ac": 31200
+      },
+      {
+        "nome": "Sprint 5 (dez)",
+        "pv_pct": 0.2,
+        "ev_pct": null,
+        "ac": null
+      },
+      {
+        "nome": "Sprint 6 (jan)",
+        "pv_pct": 0.16,
+        "ev_pct": null,
+        "ac": null
+      }
+    ],
+    "leitura": "A Sprint 1 foi dedicada a decisões internas (funcionamento do agente via cloud-init e estratégia da base de código) e entregou pouco valor com custo cheio, o que derrubou o CPI acumulado. Nas Sprints 3 e 4 o desempenho por sprint ficou acima de 1, mas o acumulado ainda carrega o efeito da Sprint 1. Para fechar no BAC precisaríamos de TCPI acima de 1 até o fim, o que é improvável sem cortar escopo."
+  },
+  "legado": {
+    "contexto": "Na Sprint 1 tínhamos duas bases de código: X, funcional porém sem padrão e com integrações acopladas, e Y, estável e limpa porém sem integrações. A decisão foi refazer a partir de Y usando X como referência. Avaliamos as duas opções pelo Custo Anual Uniforme Equivalente em 5 anos, com custos de manutenção estimados (retrabalho e correção de defeitos).",
+    "defensor": {
+      "nome": "Manter a base X (legado funcional)",
+      "investimento": 0,
+      "custos_anuais": [
+        52000,
+        52000,
+        52000,
+        52000,
+        52000
+      ]
+    },
+    "desafiante": {
+      "nome": "Refazer a partir de Y usando X como referência",
+      "investimento": 38000,
+      "custos_anuais": [
+        20000,
+        20000,
+        20000,
+        20000,
+        20000
+      ]
+    }
+  },
+  "bom_o_suficiente": {
+    "tema": "cobertura de validação multi-cloud",
+    "niveis": [
+      {
+        "nome": "AWS apenas (estado atual)",
+        "custo": 0,
+        "beneficio": 0
+      },
+      {
+        "nome": "AWS + GCP",
+        "custo": 14000,
+        "beneficio": 38000
+      },
+      {
+        "nome": "AWS + GCP + Azure",
+        "custo": 28000,
+        "beneficio": 47000
+      },
+      {
+        "nome": "Multi-cloud + testes de caos",
+        "custo": 46000,
+        "beneficio": 52000
+      }
+    ],
+    "leitura": "Isso é coerente com a limitação do TCC (validação experimental só na AWS): o próximo passo que se paga é validar a GCP. Azure e testes de caos ficam para quando houver demanda de cliente que pague por eles."
+  },
+  "backlog": [
+    {
+      "item": "2FA no primeiro login e registro",
+      "valor": 6,
+      "esforco": 3
+    },
+    {
+      "item": "Otimização multi-cloud com instâncias spot",
+      "valor": 9,
+      "esforco": 8
+    },
+    {
+      "item": "Dashboard de energia e carbono",
+      "valor": 5,
+      "esforco": 5
+    },
+    {
+      "item": "Zero Trust (mTLS e rotação de certificados)",
+      "valor": 8,
+      "esforco": 13
+    },
+    {
+      "item": "Escalonamento preditivo por séries temporais",
+      "valor": 8,
+      "esforco": 13
+    },
+    {
+      "item": "Integração com service mesh (canary burst)",
+      "valor": 4,
+      "esforco": 13
+    },
+    {
+      "item": "Suporte a serviços stateful",
+      "valor": 6,
+      "esforco": 21
+    },
+    {
+      "item": "Suporte ao Nomad",
+      "valor": 3,
+      "esforco": 21
+    }
+  ],
+  "modelo_negocio": {
+    "resumo": "open-core, com plano Community gratuito como funil e licença Pro anual de R$ 12.000 por cluster, precificada por valor percebido",
+    "descricao": "Propomos um modelo open-core. O núcleo do agente fica aberto e gratuito para clusters pequenos, o que reduz o CAC e cria comunidade em torno do Swarm. A receita vem da licença Pro por cluster, que libera multi-cloud, o dashboard de FinOps e suporte. O plano Enterprise atende empresas com requisitos de segurança e SLA de suporte. O fluxo de caixa da seção 4 considera apenas a receita Pro, então o Enterprise é potencial de alta não modelado.",
+    "planos": [
+      {
+        "plano": "Community",
+        "preco": "Grátis",
+        "publico": "Times pequenos e laboratórios",
+        "limite": "Até 2 nós de burst, só AWS"
+      },
+      {
+        "plano": "Pro",
+        "preco": "R$ 12.000/cluster/ano (R$ 1.000/mês)",
+        "publico": "Empresas com picos sazonais",
+        "limite": "Até 10 nós de burst, AWS + GCP, dashboard FinOps"
+      },
+      {
+        "plano": "Enterprise",
+        "preco": "Sob consulta (a partir de R$ 24.000/cluster/ano)",
+        "publico": "Ambientes regulados",
+        "limite": "Nós ilimitados, SSO, mTLS, suporte 24x7"
+      }
+    ],
+    "roi_cliente": "no perfil de referência o cliente economiza {economia} por mês em nuvem e paga {licenca} por mês de licença, um retorno de {retorno}x sobre o valor pago, além da redução projetada de 85% a 90% nas violações de SLA durante picos."
+  },
+  "riscos": [
+    {
+      "risco": "Adoção abaixo do previsto",
+      "impacto": "VPL cai (cenário Adoção -30%)",
+      "mitigacao": "Plano Community como funil e parceria com consultorias DevOps"
+    },
+    {
+      "risco": "Churn maior que 12% a.a.",
+      "impacto": "LTV e VPL menores (cenário Churn 20%)",
+      "mitigacao": "Onboarding assistido e relatório mensal de economia gerada"
+    },
+    {
+      "risco": "Estouro de custo do desenvolvimento (CPI < 1)",
+      "impacto": "EAC acima do BAC e investimento maior",
+      "mitigacao": "Controle de escopo por Valor x Esforço e replanejamento por sprint"
+    },
+    {
+      "risco": "Resultados experimentais ainda projetados",
+      "impacto": "Economia de ~94% e redução de SLA são estimativas",
+      "mitigacao": "Substituir pelos dados reais dos testes k6 e reprocessar a skill"
+    },
+    {
+      "risco": "Câmbio e preços de nuvem em USD",
+      "impacto": "Valor percebido varia com o dólar",
+      "mitigacao": "Preço em BRL e economia demonstrada no dashboard do cliente"
+    },
+    {
+      "risco": "Concorrência de Kubernetes gerenciado",
+      "impacto": "Pressão sobre o preço",
+      "mitigacao": "Posicionamento de zero migração (seção 9.4)"
+    },
+    {
+      "risco": "Premissas tributárias (ISS municipal entre 2% e 5%)",
+      "impacto": "Carga diferente da modelada",
+      "mitigacao": "Validar enquadramento com contador"
+    }
+  ]
+}
